@@ -16,6 +16,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="sys-libs/zlib"
+RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 

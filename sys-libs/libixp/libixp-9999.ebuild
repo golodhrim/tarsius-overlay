@@ -1,6 +1,5 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# from devnull overlay but modified
 
 EAPI="2"
 
@@ -12,10 +11,9 @@ EHG_REPO_URI="http://hg.suckless.org/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE=""
 
-DEPEND=""
 RDEPEND=""
 
 S="${WORKDIR}/${PN}"
@@ -30,9 +28,9 @@ src_prepare() {
 }
 
 src_compile() {
-	emake -j1 || die "emake failed"
+	emake || die "emake failed"
 }
 
 src_install() {
-	emake -j1 DESTDIR="${D}" install || die "emake install failed"
+	emake DESTDIR="${D}" install || die "emake install failed"
 }

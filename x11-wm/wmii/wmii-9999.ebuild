@@ -35,7 +35,6 @@ DEPEND="${COMMON_DEPEND}
 	app-text/txt2tags
 	dev-util/pkgconfig"
 
-MAKEOPTS="${MAKEOPTS} -j1"
 DOCS="FAQ NEWS README TODO"
 
 S="${WORKDIR}/${PN}"
@@ -58,14 +57,14 @@ src_prepare() {
 
 	if use python || use plan9 || use ruby
 	then
-		use python || ( sed -i -e "/^DIRS =	python/s|python||" $alt || die )
-		use plan9  || ( sed -i -e "/^\tplan9port/d"            $alt || die )
-		use ruby   || ( sed -i -e "/^\truby/d"                 $alt || die )
+		use python || { sed -i -e "/^DIRS =	python/s|python||" $alt || die; }
+		use plan9  || { sed -i -e "/^\tplan9port/d"            $alt || die; }
+		use ruby   || { sed -i -e "/^\truby/d"                 $alt || die; }
 	else
 		sed -i -e "/^\talternative_wmiircs/d"     Makefile || die
 	fi
-	use plan9 || ( sed -i -e "/^\twmii\.rc/d" cmd/Makefile || die)
-	use doc   || ( sed -i -e "/^\tdoc/d"          Makefile || die)
+	use plan9 || { sed -i -e "/^\twmii\.rc/d" cmd/Makefile || die; }
+	use doc   || { sed -i -e "/^\tdoc/d"          Makefile || die; }
 
 	sed -i -e "/^CONFDIR =/s|wmii-hg|wmii|" mk/wmii.mk || die
 

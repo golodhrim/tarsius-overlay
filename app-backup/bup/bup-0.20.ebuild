@@ -15,13 +15,15 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="+fuse +web"
 
-DEPEND="
-	app-text/pandoc
+DEPEND_COMMON="
 	app-arch/par2cmdline
 	dev-python/fuse-python
 	dev-vcs/git
 	fuse? ( sys-fs/fuse )
 	web? ( www-servers/tornado )"
+DEPEND="${DEPEND_COMMON}
+	app-text/pandoc"
+RDEPEND="${DEPEND_COMMON}"
 
 S="${WORKDIR}/apenwarr-${PN}-${SRC_HASH}"
 

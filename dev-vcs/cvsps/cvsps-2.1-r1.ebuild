@@ -1,11 +1,9 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="2"
-
 inherit eutils
 
-MY_P="${P/_beta1/b1}"
+MY_P="${P/_/}"
 DESCRIPTION="Generates patchset information from a CVS repository"
 HOMEPAGE="http://www.cobite.com/cvsps/"
 SRC_URI="http://www.cobite.com/cvsps/${MY_P}.tar.gz"
@@ -19,6 +17,17 @@ DEPEND="sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"
+
+src_unpack() {
+	unpack ${A}
+	cd "${S}"
+	epatch "${FILESDIR}"/${P}-build.patch
+	epatch "${FILESDIR}"/${P}-solaris.patch
+	# no configure around
+	if [[ ${CHOST} == *-solaris* ]] ; then
+		sed -i -e '/^LDLIBS+=/s/$/ -lsocket/' Makefile || die
+	fi
+}
 
 src_install() {
 	dobin cvsps || die

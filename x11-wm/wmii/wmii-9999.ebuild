@@ -87,7 +87,7 @@ src_install() {
 	cat > "${T}"/wmii << "EOF"
 # xsetroot -solid #333333 &
 # feh --bg-center /path/to/image &
-echo "until wmii; do :; done
+until wmii; do :; done
 EOF
 	exeinto /etc/X11/Sessions
 	doexe "${T}"/wmii || die

@@ -3,22 +3,16 @@
 
 EAPI="3"
 
-inherit toolchain-funcs mercurial
-
-: ${EHG_REPO_URI:="http://hg.suckless.org/${PN}"}
+inherit eutils multilib toolchain-funcs
 
 DESCRIPTION="Standalone client/server 9P library"
 HOMEPAGE="http://libs.suckless.org/libixp"
-SRC_URI=""
+SRC_URI="https://github.com/downloads/tarsius/tarsius-overlay/${P}.tar.bz2"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~hppa ~ppc64 ~x86"
 IUSE=""
-
-RDEPEND=""
-
-S="${WORKDIR}/${PN}"
 
 src_prepare() {
 	sed -i \

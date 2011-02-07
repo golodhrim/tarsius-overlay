@@ -3,22 +3,21 @@
 
 EAPI="3"
 
-inherit flag-o-matic multilib toolchain-funcs mercurial
+inherit flag-o-matic multilib toolchain-funcs
 
-: ${EHG_REPO_URI:="http://hg.suckless.org/${PN}"}
+MY_P=wmii+ixp-${PV}
 
 DESCRIPTION="A dynamic window manager for X11"
 HOMEPAGE="http://${PN}.suckless.org"
-SRC_URI=""
+SRC_URI="http://dl.suckless.org/${PN}/${MY_P}.tbz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="amd64 ~hppa ~ppc64 x86"
 IUSE="doc plan9 python ruby"
 
 COMMON_DEPEND="
 	>=media-libs/freetype-2
-	=sys-libs/libixp-9999
 	x11-libs/libXft
 	x11-libs/libXext
 	x11-libs/libXrandr
@@ -26,17 +25,18 @@ COMMON_DEPEND="
 	x11-libs/libX11
 	x11-libs/libXinerama"
 RDEPEND="${COMMON_DEPEND}
-	media-fonts/font-misc-misc
 	x11-apps/xmessage
+	x11-apps/xsetroot
+	media-fonts/font-misc-misc
 	plan9? ( dev-util/plan9port )
 	ruby? ( dev-lang/ruby )"
 DEPEND="${COMMON_DEPEND}
 	app-text/txt2tags
 	dev-util/pkgconfig"
 
-DOCS="FAQ NEWS README TODO"
+DOCS="NEWS NOTES README TODO"
 
-S="${WORKDIR}/${PN}"
+S="${WORKDIR}/${MY_P}"
 
 pkg_setup() {
 	mywmiiconf=(
@@ -69,8 +69,6 @@ src_prepare() {
 	use doc   || { sed -i -e "/^\tdoc/d"          Makefile || die; }
 
 	sed -i -e "/BINSH \!=/d" mk/hdr.mk || die #335083
-
-	sed -i -e "/^CONFDIR =/s|wmii-hg|wmii|" mk/wmii.mk || die
 }
 
 src_compile() {

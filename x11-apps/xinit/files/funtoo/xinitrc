@@ -14,7 +14,15 @@ sysmodmap=/etc/X11/xinit/Xmodmap
 
 # Select an xsession/client
 
-[ -n "`/etc/X11/chooser.sh`" ] && xsession="`/etc/X11/chooser.sh`"
+if [ -n "$1" ]
+then
+	xsession=$1
+elif [ -n "`/etc/X11/chooser.sh`" ]
+then
+	xsession="`/etc/X11/chooser.sh`"
+else
+	xsession=
+fi
 
 # Load additional configuration
 

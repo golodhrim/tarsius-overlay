@@ -1,5 +1,4 @@
 #!/bin/sh
-# $XConsortium: Xsession /main/10 1995/12/18 18:21:28 gildea $
 
 case $# in
 1)
@@ -22,9 +21,7 @@ do
 done
 
 # clean up after xbanner
-if which freetemp 2> /dev/null ; then
-	freetemp
-fi
+which freetemp 2> /dev/null && freetemp
 
 startup=$HOME/.xsession
 
@@ -41,25 +38,19 @@ rh6sysmodmap=/etc/X11/xinit/Xmodmap
 
 
 # merge in defaults
-if [ -f "$rh6sysresources" ]; then
-	xrdb -merge "$rh6sysresources"
-fi
-
-if [ -f "$sysresources" ]; then
-	xrdb -merge "$sysresources"
-fi
-
-if [ -f "$userresources" ]; then
-	xrdb -merge "$userresources"
-fi
+[ -f "$rh6sysresources" ] && xrdb -merge "$rh6sysresources"
+[ -f "$sysresources" ]	  && xrdb -merge "$sysresources"
+[ -f "$userresources" ]   && xrdb -merge "$userresources"
 
 # merge in keymaps
-if [ -f "$sysxkbmap" ]; then
+if [ -f "$sysxkbmap" ]
+then
 	setxkbmap `cat "$sysxkbmap"`
 	XKB_IN_USE=yes
 fi
 
-if [ -f "$userxkbmap" ]; then
+if [ -f "$userxkbmap" ]
+then
 	setxkbmap `cat "$userxkbmap"`
 	XKB_IN_USE=yes
 fi
@@ -67,10 +58,13 @@ fi
 #
 # Eeek, this seems like too much magic here
 #
-if [ -z "$XKB_IN_USE" -a ! -L /etc/X11/X ]; then
-	if grep '^exec.*/Xsun' /etc/X11/X > /dev/null 2>&1 && [ -f /etc/X11/XF86Config ]; then
+if [ -z "$XKB_IN_USE" -a ! -L /etc/X11/X ]
+then
+	if grep '^exec.*/Xsun' /etc/X11/X > /dev/null 2>&1 && [ -f /etc/X11/XF86Config ]
+	then
 	   xkbsymbols=`sed -n -e 's/^[	 ]*XkbSymbols[   ]*"\(.*\)".*$/\1/p' /etc/X11/XF86Config`
-	   if [ -n "$xkbsymbols" ]; then
+	   if [ -n "$xkbsymbols" ]
+	   then
 		   setxkbmap -symbols "$xkbsymbols"
 		   XKB_IN_USE=yes
 	   fi
@@ -78,29 +72,26 @@ if [ -z "$XKB_IN_USE" -a ! -L /etc/X11/X ]; then
 fi
 
 # xkb and xmodmap don't play nice together
-if [ -z "$XKB_IN_USE" ]; then
-	if [ -f "$rh6sysmodmap" ]; then
-	   xmodmap "$rh6sysmodmap"
-	fi
-
-	if [ -f "$sysmodmap" ]; then
-	   xmodmap "$sysmodmap"
-	fi
-
-	if [ -f "$usermodmap" ]; then
-	   xmodmap "$usermodmap"
-	fi
+if [ -z "$XKB_IN_USE" ]
+then
+	[ -f "$rh6sysmodmap" ] && xmodmap "$rh6sysmodmap"
+	[ -f "$sysmodmap" ]	   && xmodmap "$sysmodmap"
+	[ -f "$usermodmap" ]   && xmodmap "$usermodmap"
 fi
 
 unset XKB_IN_USE
 
-if [ -x "$startup" ]; then
+if [ -x "$startup" ]
+then
 	exec "$startup"
-elif [ -x "$HOME/.Xclients" ]; then
+elif [ -x "$HOME/.Xclients" ]
+then
 	exec "$HOME/.Xclients"
-elif [ -x /etc/X11/xinit/Xclients ]; then
+elif [ -x /etc/X11/xinit/Xclients ]
+then
 	exec /etc/X11/xinit/Xclients
-elif [ -x /etc/X11/Xclients ]; then
+elif [ -x /etc/X11/Xclients ]
+then
 	exec /etc/X11/Xclients
 else
 	exec xsm

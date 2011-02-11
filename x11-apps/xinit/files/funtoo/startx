@@ -101,7 +101,7 @@ then
 	if [ -z "$serverargs" -a -z "$display" ]
 	then
 		# For compatibility reasons, only use xserverrc if there were no
-        # server command line arguments
+		# server command line arguments
 		if [ -f "$userserverrc" ]
 		then
 			server=$userserverrc

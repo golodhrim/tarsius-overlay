@@ -33,9 +33,10 @@ if [ -n "$xsession" ]
 then
 	exec $xsession
 else
-	twm &
-	xclock -geometry 50x50-1+1 &
-	xterm -geometry 80x50+494+51 &
-	xterm -geometry 80x20+494-0 &
-	exec xterm -geometry 80x66+0+0 -name login
+	xterm -geometry 80x20+0+0 &
+	xterm -geometry 80x20-0+0 &
+	exec xmessage -center \
+"Unable to determine a window manager to start.
+Please check your configuration; set $XSESSION.
+Closing this window terminates X11."
 fi

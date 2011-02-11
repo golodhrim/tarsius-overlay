@@ -16,12 +16,12 @@ RDEPEND="
 	x11-apps/xauth
 	x11-libs/libX11"
 DEPEND="${RDEPEND}"
-PDEPEND="x11-apps/xrdb
+PDEPEND="
+	x11-apps/xmessage
+	x11-apps/xrdb
 	!minimal? (
-		x11-apps/xclock
 		x11-apps/xsm
 		x11-terms/xterm
-		x11-wm/twm
 	)"
 
 PATCHES=(

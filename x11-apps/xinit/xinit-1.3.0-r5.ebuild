@@ -8,7 +8,7 @@ inherit xorg-2
 DESCRIPTION="X Window System initializer"
 
 LICENSE="${LICENSE} GPL-2"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="+minimal"
 
 RDEPEND="
@@ -24,38 +24,30 @@ PDEPEND="
 		x11-terms/xterm
 	)"
 
-PATCHES=(
-	"${FILESDIR}/funtoo/0001-Gentoo-customizations.patch"
-)
-
-pkg_setup() {
-	xorg-2_pkg_setup
-
-	CONFIGURE_OPTIONS="--with-xinitdir=/etc/X11/xinit"
-}
+CONFIGURE_OPTIONS="--with-xinitdir=/etc/X11/xinit"
 
 src_install() {
 	xorg-2_src_install
 
+	exeinto /usr/bin
+	doexe "${FILESDIR}"/funtoo/startx || die
 	exeinto /etc/X11
-	doexe "${FILESDIR}"/funtoo/chooser.sh "${FILESDIR}"/funtoo/startDM.sh || die
+	doexe "${FILESDIR}"/funtoo/{chooser,startDM}.sh || die
 	exeinto /etc/X11/Sessions
 	doexe "${FILESDIR}"/funtoo/Xsession || die
 	exeinto /etc/X11/xinit
-	doexe "${FILESDIR}"/funtoo/xserverrc || die
+	doexe "${FILESDIR}"/funtoo/x{init,server}rc || die
 	exeinto /etc/X11/xinit/xinitrc.d/
 	doexe "${FILESDIR}"/funtoo/00-xhost
 }
 
 pkg_postinst() {
-	xorg-2_pkg_postinst
-
-	ewarn "If you use startx to start X instead of a login manager like gdm/kdm,"
-	ewarn "you can set the XSESSION variable to anything in /etc/X11/Sessions/ or"
-	ewarn "any executable. When you run startx, it will run this as the login session."
-	ewarn "You can set this in a file in /etc/env.d/ for the entire system,"
-	ewarn "or set it per-user in ~/.bash_profile (or similar for other shells)."
-	ewarn "Here's an example of setting it for the whole system:"
-	ewarn "    echo XSESSION=\"Gnome\" > /etc/env.d/90xsession"
-	ewarn "    env-update && source /etc/profile"
+	einfo "If you use startx to start X instead of a login manager like gdm/kdm,"
+	einfo "you can set the XSESSION variable to anything in /etc/X11/Sessions/ or"
+	einfo "any executable. When you run startx, it will run this as the login session."
+	einfo "You can set this in a file in /etc/env.d/ for the entire system,"
+	einfo "or set it per-user in ~/.bash_profile (or similar for other shells)."
+	einfo "Here's an example of setting it for the whole system:"
+	einfo "    echo XSESSION=\"Gnome\" > /etc/env.d/90xsession"
+	einfo "    env-update && source /etc/profile"
 }

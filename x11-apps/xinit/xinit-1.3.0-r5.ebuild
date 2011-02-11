@@ -8,14 +8,13 @@ inherit xorg-2
 DESCRIPTION="X Window System initializer"
 
 LICENSE="${LICENSE} GPL-2"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
+KEYWORDS=""
 IUSE="+minimal"
 
 RDEPEND="
 	!<x11-base/xorg-server-1.8.0
 	x11-apps/xauth
-	x11-libs/libX11
-"
+	x11-libs/libX11"
 DEPEND="${RDEPEND}"
 PDEPEND="x11-apps/xrdb
 	!minimal? (
@@ -23,11 +22,10 @@ PDEPEND="x11-apps/xrdb
 		x11-apps/xsm
 		x11-terms/xterm
 		x11-wm/twm
-	)
-"
+	)"
 
 PATCHES=(
-	"${FILESDIR}/gentoo/0001-Gentoo-customizations.patch"
+	"${FILESDIR}/funtoo/0001-Gentoo-customizations.patch"
 )
 
 pkg_setup() {
@@ -40,17 +38,18 @@ src_install() {
 	xorg-2_src_install
 
 	exeinto /etc/X11
-	doexe "${FILESDIR}"/gentoo/chooser.sh "${FILESDIR}"/gentoo/startDM.sh || die
+	doexe "${FILESDIR}"/funtoo/chooser.sh "${FILESDIR}"/funtoo/startDM.sh || die
 	exeinto /etc/X11/Sessions
-	doexe "${FILESDIR}"/gentoo/Xsession || die
+	doexe "${FILESDIR}"/funtoo/Xsession || die
 	exeinto /etc/X11/xinit
-	doexe "${FILESDIR}"/gentoo/xserverrc || die
+	doexe "${FILESDIR}"/funtoo/xserverrc || die
 	exeinto /etc/X11/xinit/xinitrc.d/
-	doexe "${FILESDIR}"/gentoo/00-xhost
+	doexe "${FILESDIR}"/funtoo/00-xhost
 }
 
 pkg_postinst() {
 	xorg-2_pkg_postinst
+
 	ewarn "If you use startx to start X instead of a login manager like gdm/kdm,"
 	ewarn "you can set the XSESSION variable to anything in /etc/X11/Sessions/ or"
 	ewarn "any executable. When you run startx, it will run this as the login session."

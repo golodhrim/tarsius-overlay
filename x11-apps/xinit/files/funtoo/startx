@@ -100,7 +100,8 @@ then
 	# if no server arguments or display either, use defaults
 	if [ -z "$serverargs" -a -z "$display" ]
 	then
-		# For compatibility reasons, only use xserverrc if there were no server command line arguments
+		# For compatibility reasons, only use xserverrc if there were no
+        # server command line arguments
 		if [ -f "$userserverrc" ]
 		then
 			server=$userserverrc
@@ -153,9 +154,7 @@ then
 	# create a file with auth information for the server. ':0' is a dummy.
 	xserverauthfile=$HOME/.serverauth.$$
 	trap "rm -f '$xserverauthfile'" HUP INT QUIT ILL TRAP KILL BUS TERM
-	xauth -q -f "$xserverauthfile" << EOF
-add :$dummy . $mcookie
-EOF
+	echo "add :$dummy . $mcookie" | xauth -q -f "$xserverauthfile"
 
 serverargs=${serverargs}" -auth "${xserverauthfile}
 
@@ -168,15 +167,11 @@ do
 		| sed -n "s/.*$displayname[[:space:]*].*[[:space:]*]//p"` 2>/dev/null;
 	if [ -z "$authcookie" ]
 	then
-		xauth -q << EOF
-add $displayname . $mcookie
-EOF
+		echo "add $displayname . $mcookie" | xauth -q
 		removelist="$displayname $removelist"
 	else
 		dummy=$(($dummy+1));
-		xauth -q -f "$xserverauthfile" << EOF
-add :$dummy . $authcookie
-EOF
+		echo "add :$dummy . $authcookie" | xauth -q -f "$xserverauthfile"
 	fi
 done
 fi

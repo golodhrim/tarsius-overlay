@@ -29,20 +29,20 @@ serverargs=""
 enable_xauth=1
 
 whoseargs="client"
-while [ x"$1" != x ]
+while [ -n "$1" ]
 do
 	case "$1" in
 		/*|\./*)
 			if [ "$whoseargs" = "client" ]
 			then
-				if [ x"$client" = x ] && [ x"$clientargs" = x ]
+				if [ -z "$client" -a -z "$clientargs" ]
 				then
 					client="$1"
 				else
 					clientargs="$clientargs $1"
 				fi
 			else
-				if [ x"$server" = x ] && [ x"$serverargs" = x ]
+				if [ -z "$server" -a -z "$serverargs" ]
 				then
 					server="$1"
 				else
@@ -59,7 +59,7 @@ do
 				clientargs="$clientargs $1"
 			else
 				# display must be the FIRST server argument
-				if [ x"$serverargs" = x ] && \
+				if [ -z "$serverargs" ] && \
 					expr "$1" : ':[0-9][0-9]*$' > /dev/null 2>&1
 				then
 					display="$1"
@@ -73,12 +73,12 @@ do
 done
 
 # process client arguments
-if [ x"$client" = x ]
+if [ -z "$client" ]
 then
 	client=$defaultclient
 
 	# if no client arguments either, use rc file instead
-	if [ x"$clientargs" = x ]
+	if [ -z "$clientargs" ]
 	then
 		if [ -f "$userclientrc" ]
 		then
@@ -93,12 +93,12 @@ then
 fi
 
 # process server arguments
-if [ x"$server" = x ]
+if [ -z "$server" ]
 then
 	server=$defaultserver
 
 	# if no server arguments or display either, use defaults
-	if [ x"$serverargs" = x -a x"$display" = x ]
+	if [ -z "$serverargs" -a -z "$display" ]
 	then
 		# For compatibility reasons, only use xserverrc if there were no server command line arguments
 		if [ -f "$userserverrc" ]
@@ -114,9 +114,9 @@ then
 	fi
 fi
 
-if [ x"$enable_xauth" = x1 ]
+if [ -n "$enable_xauth" ]
 then
-	if [ x"$XAUTHORITY" = x ]
+	if [ -z "$XAUTHORITY" ]
 	then
 		XAUTHORITY=$HOME/.Xauthority
 		export XAUTHORITY
@@ -143,7 +143,7 @@ then
 
 	mcookie=`/usr/bin/mcookie`
 
-	if test x"$mcookie" = x
+	if [ -z "$mcookie" ]
 	then
 		echo "Couldn't create cookie"
 		exit 1
@@ -166,7 +166,7 @@ for displayname in $authdisplay $hostname$authdisplay
 do
 	authcookie=`xauth list "$displayname" \
 		| sed -n "s/.*$displayname[[:space:]*].*[[:space:]*]//p"` 2>/dev/null;
-	if [ "z${authcookie}" = "z" ]
+	if [ -z "$authcookie" ]
 	then
 		xauth -q << EOF
 add $displayname . $mcookie
@@ -185,13 +185,13 @@ xinit "$client" $clientargs -- "$server" $display $serverargs
 
 retval=$?
 
-if [ x"$enable_xauth" = x1 ]
+if [ -n "$enable_xauth" ]
 then
-	if [ x"$removelist" != x ]
+	if [ -z "$removelist" ]
 	then
 		xauth remove $removelist
 	fi
-	if [ x"$xserverauthfile" != x ]
+	if [ -n "$xserverauthfile" ]
 	then
 		rm -f "$xserverauthfile"
 	fi

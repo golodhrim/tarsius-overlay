@@ -151,8 +151,8 @@ then
 	fi
 	dummy=0
 
-	# create a file with auth information for the server. ':0' is a dummy.
-	xserverauthfile=$HOME/.serverauth.$$
+	# create the file with auth information for the server.
+	xserverauthfile=$XAUTHORITY
 	trap "rm -f '$xserverauthfile'" HUP INT QUIT ILL TRAP KILL BUS TERM
 	echo "add :$dummy . $mcookie" | xauth -q -f "$xserverauthfile"
 

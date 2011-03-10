@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer>
+    <email>jonas@bernoul.li</email>
+    <name>Jonas Bernoulli</name>
+  </maintainer>
+  <longdescription lang="en">
+    An improved dynamic tiling window manager inspired by wmii.
+  </longdescription>
+  <use>
+    <flag name='debug'>Enable debugging</flag>
+    <flag name='wsbar'>Install wsbar a simple orkspace bar</flag>
+  </use>
+</pkgmetadata>

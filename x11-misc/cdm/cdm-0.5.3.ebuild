@@ -4,7 +4,7 @@
 EAPI="3"
 
 DESCRIPTION="The Console Display Manager"
-GITHUB_USER="tarsius"
+GITHUB_USER="golodhrim"
 GITHUB_TAG="funtoo-${PV}"
 HOMEPAGE="http://cdm.ghost1227.com/X11 https://github.com/${GITHUB_USER}/${PN}"
 SRC_URI="https://github.com/${GITHUB_USER}/${PN}/tarball/${GITHUB_TAG} -> ${P}.tar.gz"

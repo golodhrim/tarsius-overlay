@@ -50,5 +50,5 @@ src_install() {
 
 pkg_postinst() {
 	ewarn "If you want cdm to be started automatically after login then"
-	ewarn "move /etc/share/cdm/zzz-cdm-profile.sh to /etc/profile.d/."
+	ewarn "move /usr/share/cdm/zzz-cdm-profile.sh to /etc/profile.d/."
 }

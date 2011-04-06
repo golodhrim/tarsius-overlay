@@ -6,19 +6,21 @@ EAPI="3"
 DESCRIPTION="git flow completion for bash and zsh"
 GITHUB_USER="bobthecow"
 GITHUB_TAG="${PV}"
-HOMEPAGE="http://cdm.ghost1227.com/X11 https://github.com/${GITHUB_USER}/${PN}"
 SRC_URI="https://github.com/${GITHUB_USER}/${PN}/tarball/${GITHUB_TAG} -> ${P}.tar.gz"
+SRC_HASH="e911aa3"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bash zsh"
+IUSE="+bash zsh"
 
 DEPEND="dev-vcs/gitflow
 	app-shells/bash
 	zsh? ( app-shells/zsh )"
 
 RDEPEND="${DEPEND}"
+
+S="${WORKDIR}/${GITHUB_USER}-${PN}-${SRC_HASH}"
 
 src_install() {
 	insinto /etc/bash_completion.d
